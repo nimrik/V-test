@@ -1,5 +1,5 @@
 <template>
-    <section class="offices-map">
+    <section class="offices-map" :class="{active : slide}">
         <div class=" wrapper">
             <div class="container">
                 <h2>Our Offices</h2>
@@ -20,7 +20,8 @@
                 </ul>
 
                 <!--Vue tabs-->
-                <div class="container" v-if="current === 'kyiv'">
+
+                <div class="container container--media" v-if="current === 'kyiv'">
                     <h3>Global Message Services Ukraine LLC</h3>
 
                     <p>Kyiv, Stepan Bandera</p>
@@ -28,7 +29,7 @@
                     <p>Ukraine</p>
                 </div>
 
-                <div class="container" v-if="current === 'york'">
+                <div class="container container--media" v-if="current === 'york'">
                     <h3>Global Message Services New York LLC</h3>
 
                     <p>New York, Somewhere There</p>
@@ -36,7 +37,7 @@
                     <p>New York</p>
                 </div>
 
-                <div class="container" v-if="current === 'guangzhou'">
+                <div class="container container--media" v-if="current === 'guangzhou'">
                     <h3>Global Message Services Guangzhou LLC</h3>
 
                     <p>Guangzhou, Here</p>
@@ -44,24 +45,26 @@
                     <p>Guangzhou</p>
                 </div>
 
-                <div class="container" v-if="current === 'barcelona'">
+                <div class="container container--media" v-if="current === 'barcelona'">
                     <h3>Global Message Services Barcelona LLC</h3>
 
                     <p>Barcelona, Mamma mia</p>
                     <p>13312</p>
                     <p>Barcelona</p>
                 </div>
+
             </div>
         </div>
 
 
 
-        <div class="container container--half container--map">
+        <div class="container container--half container--map ">
             <!--Google Maps-->
                 <gmap-map
+                        class="google-map"
                         :center="center"
                         :zoom="9"
-                        style="width:100%;  height: 400px;"
+                        style="width:100%;  height: 100%;"
                         :options="mapStyle"
                 >
                     <gmap-marker
@@ -83,6 +86,7 @@
         name: "Offices-map",
         data() {
             return {
+                slide: false,
                 code: 'AIzaSyByhzU1ebU-hXEzaG0Zl8kJYkSa1rtAYbk',
                 center: { lat: 50.4501, lng: 30.5234 },
                 markers: [{
@@ -288,18 +292,25 @@
 
         methods: {
             setPlace(lat, lng, current) {
-                this.center.lat = lat
-                this.center.lng = lng
+                this.center.lat = lat;
+                this.center.lng = lng;
 
                 const marker = {
                     lat: lat,
                     lng: lng
                 };
 
-                this.current = current
-                this.markers = [{position: marker}]
+                this.current = current;
+                this.markers = [{position: marker}];
                 this.center = marker;
-            },
+
+                this.slide = true;
+                const _self = this;
+
+                setTimeout(function() {
+                    _self.slide = false
+                }, 2000)
+            }
         }
     }
 </script>
@@ -310,6 +321,30 @@
 .offices-map
     color: $white
     background-image: url('../assets/offices-map-bg.png')
+
+    &::after
+        content: ''
+        position: absolute
+        z-index: 1
+        top: 0
+        right: -100%
+        width: 100%
+        height: 100%
+        background-color: $primary
+
+    &.active::after
+        animation: slide 2s ease forwards
+
+
+@keyframes slide
+    0%
+        right: -100%
+
+    3%,50%
+        right: 0
+
+    100%
+        right: 100%
 
 .container--map
     position: absolute
@@ -329,8 +364,21 @@
     display: flex
     margin: 1.25em 0
 
-    .map-marker
+@media only screen and (max-width: 768px)
+    body
+        .container--map
+            z-index: initial
+            width: 100%
+            height: 350px
+            right: initial
+            top: initial
+            position: relative
+            margin-bottom: 0
 
+        .container--media
+            width: 50%
 
-
+@media only screen and (max-width: 425px)
+    .tabs
+        flex-wrap: wrap
 </style>

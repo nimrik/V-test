@@ -32,6 +32,10 @@ export default {
 //===============================================
 
 #app
+  height: 100vh
+  display: flex
+  flex-direction: column
+  justify-content: stretch
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
 
@@ -148,6 +152,7 @@ ul
 //===============================================
 
 section
+  flex: 1 1 33.33%
   position: relative
 
 .wrapper
@@ -164,6 +169,8 @@ section
   justify-content: space-between
   flex-flow: wrap column
 
+  position: relative
+
 .container--half
   width: 50%
 
@@ -179,6 +186,8 @@ section
 //===========================================
                   FORM
 //===========================================
+
+
 form
   display: flex
   flex-flow: wrap column
@@ -187,12 +196,14 @@ form
   margin-right: 70px
 
   label
-    top: calc(50% - 1em + 3px)
+    top: calc(50% - 1em + 2px)
     left: 0
     position: absolute
 
     font-size: 0.750em
     color: #000
+
+    transition: all 300ms ease
 
   .input-field
     display: flex
@@ -204,6 +215,7 @@ form
   .input-field--checkbox
     padding: 20px
     padding-left: 0
+    margin-bottom: -10px
     justify-content: center
     line-height: 25px
 
@@ -224,11 +236,13 @@ form
     outline: none
     color: $black
     font-size: .750rem
-    background-color: transparent
+    background-color: transparent !important
     border: none
     border-bottom: 1px solid $black
 
     position: relative
+
+    transition: all 300ms ease
 
     &:focus
       color: $white
@@ -237,15 +251,50 @@ form
     &:focus + label
       color: $white
 
+    &.error
+      color: maroon
+      border-bottom: 3px solid maroon
+
+      & + label
+        color: maroon
+
+  input[type="checkbox"]:focus + label,
+  input[type="radio"]:focus + label
+    color: white
+
+  input[type="checkbox"],
+  input[type="radio"]
+    &.error
+      color: maroon
+      border-bottom: 3px solid maroon
+
+      & + label
+        color: maroon
+
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover
+  textarea:-webkit-autofill:focus,
+  select:-webkit-autofill,
+  select:-webkit-autofill:hover,
+  select:-webkit-autofill:focus
+    background-color: transparent !important
+    -webkit-text-fill-color: green
+    -webkit-box-shadow: 0 0 0px 1000px #000 inset
+    transition: background-color 5000s ease-in-out 0s
+
   textarea
 
   select
 
-  input[type="checkbox"], input[type="radio"]
 
 button
   width: fit-content
   padding: 2.188rem 6.250rem
+  position: relative
 
   cursor: pointer
   font-size: .438em
@@ -254,8 +303,62 @@ button
   border: none
   text-transform: uppercase
   outline: none
-  color: $white
+  overflow: hidden
   background-color: $primary
 
+  transition: all 330ms ease
+
+  span
+    color: $white
+
+  &:hover
+    color: $primary
+    background: white
+
+    .button__svg
+      top: 50%
+
+  &:disabled
+    opacity: .6
+
+  &:disabled:hover
+    background: $primary
+    .button__svg
+      top: -100%
+
+  .button__svg
+    position: absolute
+    top: -100%
+    left: 50%
+    display: block
+
+    transform: translate(-50%, -50%)
+    transition: all 330ms ease
+
+
+
+
+//===========================================
+                FORM
+//===========================================
+
+@media only screen and (max-width: 1024px)
+  body
+    .block
+      flex-wrap: wrap
+    .container
+      width: 100%
+      flex-direction: row
+      margin-bottom: 1em
+
+  form
+    margin: 0
+    .input-field
+      width: 100%
+
+@media only screen and (max-width: 425px)
+  body
+    .container
+      flex-direction: column
 
 </style>
