@@ -230,17 +230,6 @@ form
 
     position: relative
 
-    &::before
-      content: ''
-      z-index: 1
-      left: 0
-      top: 0
-      width: 100%
-      height: 100%
-      position: absolute
-
-      background-color: $white
-
     &:focus
       color: $white
       border-bottom: 1px solid $white

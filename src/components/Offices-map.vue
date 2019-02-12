@@ -57,20 +57,7 @@
 
 
         <div class="container container--half container--map">
-            <!--<img src="../assets/sample.png" alt="">-->
-
-                <!--<div>-->
-                    <!--<h2>Search and add a pin</h2>-->
-                    <!--<label>-->
-                        <!--<gmap-autocomplete-->
-                                <!--@place_changed="setPlace">-->
-                        <!--</gmap-autocomplete>-->
-                        <!--<button @click="addMarker">Add</button>-->
-                    <!--</label>-->
-                    <!--<br/>-->
-
-                <!--</div>-->
-                <!--<br>-->
+            <!--Google Maps-->
                 <gmap-map
                         :center="center"
                         :zoom="9"
@@ -84,19 +71,26 @@
                             @click="center=m.position"
                     ></gmap-marker>
                 </gmap-map>
+
             </div>
 
     </section>
 </template>
 
 <script>
+
     export default {
         name: "Offices-map",
         data() {
             return {
                 code: 'AIzaSyByhzU1ebU-hXEzaG0Zl8kJYkSa1rtAYbk',
                 center: { lat: 50.4501, lng: 30.5234 },
-                markers: [],
+                markers: [{
+                    position: {
+                        lat: 50.4501,
+                        lng: 30.5234
+                    }
+                }],
                 places: [],
                 current: 'kyiv',
                 lat: 50.4501,
@@ -291,37 +285,21 @@
                 }
             }
         },
+
         methods: {
-            // receives a place object via the autocomplete component
             setPlace(lat, lng, current) {
                 this.center.lat = lat
                 this.center.lng = lng
 
+                const marker = {
+                    lat: lat,
+                    lng: lng
+                };
+
                 this.current = current
+                this.markers = [{position: marker}]
+                this.center = marker;
             },
-            addMarker() {
-                if (this.currentPlace) {
-                    const marker = {
-                        lat: this.lat,
-                        lng: this.lng
-                    };
-                    this.markers.push({position: marker});
-                    this.places.push(this.currentPlace);
-                    this.center = marker;
-                    this.currentPlace = null;
-                }
-            },
-            // geolocate: function () {
-            //     navigator.geolocation.getCurrentPosition(position => {
-            //         this.center = {
-            //             lat: position.coords.latitude,
-            //             lng: position.coords.longitude
-            //         };
-            //     });
-            // }
-        },
-        mounted() {
-            // this.geolocate();
         }
     }
 </script>
@@ -350,5 +328,9 @@
 .tabs
     display: flex
     margin: 1.25em 0
+
+    .map-marker
+
+
 
 </style>
